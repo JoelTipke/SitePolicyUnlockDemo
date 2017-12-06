@@ -66,7 +66,10 @@ Function UnlockSitePolicy($url) {
         # pass the site to the custom call and execute
         # set auth by navigating to site
         $tempRequest = Invoke-WebRequest $url
-        $openSite = New-Object JDP.Transformation.HttpCommands.OpenSiteClosedByPolicy -argumentlist $url
+        # If needed, this can be run as default user (current) by using the following
+        # $openSite = New-Object JDP.Transformation.HttpCommands.OpenSiteClosedByPolicy -argumentlist $url
+        # Second option in the argumentlist is enumtype for Credential - 1 = Default, 2= Network, 3=O365
+        $openSite = New-Object JDP.Transformation.HttpCommands.OpenSiteClosedByPolicy -argumentlist $url,1,$Creds.UserName,$Creds.Password,$Creds.Domai
         $openSite.Execute()
         Write-Output "Site unlocked: $url"
     }
